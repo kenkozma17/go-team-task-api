@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('new-task-added', function ($task) {
+    return true;
+});
+
+Broadcast::channel('task-updated', function ($task) {
+  return true;
+});
+
+Broadcast::channel('task-sorted', function ($task) {
+  return true;
 });

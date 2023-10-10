@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum'])->get("/test", function(Request $request){
-  return ["test" => true];
-});
+Route::middleware(['auth:sanctum'])->apiResource("/statuses", TaskController::class);
+Route::middleware(['auth:sanctum'])
+  ->post("/statuses/{taskId}/sort", [TaskController::class, 'sort']);

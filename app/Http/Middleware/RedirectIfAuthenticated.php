@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
               if ($request->expectsJson()) {
-                return response()->json(['user' => Auth::user()], 200);
+                return response()->json([], 200);
               }
             }
         }
