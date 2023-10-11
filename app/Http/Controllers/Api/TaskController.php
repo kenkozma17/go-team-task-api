@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Events\NewTaskAdded;
 use App\Events\TaskUpdated;
+use App\Events\TaskSorted;
+use App\Events\TaskDeleted;
 use App\Models\Status;
 use App\Http\Resources\StatusResource;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\SortTaskRequest;
 
 class TaskController extends Controller
 {
@@ -27,7 +32,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         $input = $request->all();
 
@@ -54,15 +59,15 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $taskId)
+    public function update(UpdateTaskRequest $request, $taskId)
     {
       $input = $request->all();
 
       $task = Task::find($taskId);
       $task->fill([
-        "title" => $input["data"]["title"],
-        "description" => $input["data"]["description"],
-        "due_date" => $input["data"]["date"],
+        "title" => $input["title"],
+        "description" => $input["description"],
+        "due_date" => $input["date"],
       ]);
       $task->save();
 
@@ -71,23 +76,27 @@ class TaskController extends Controller
       return (new TaskResource($task))->response();
     }
 
-    public function sort(Request $request, $taskId) {
+    public function sort(SortTaskRequest $request, $taskId) {
       $input = $request->all();
       
       $task = Task::find($taskId);
       $task->status_id = $input["newStatusId"];
       $task->save();
 
-      event(new TaskUpdated($task));
+      event(new TaskSorted($task));
 
-      return (new TaskResource($task))->response();
+      return ["message" => "Task Sorted Successfully"];
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy($taskId)
     {
-        //
+      $task = Task::destroy($taskId);
+
+      event(new TaskDeleted());
+
+      return response(["message" => "Task Deleted Successfully"]);
     }
 }

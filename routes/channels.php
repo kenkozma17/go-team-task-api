@@ -24,3 +24,7 @@ Broadcast::channel('task-updated', function ($task) {
 Broadcast::channel('task-sorted', function ($task) {
   return true;
 });
+
+Broadcast::channel('task-deleted', function ($task) {
+  return true;
+});
