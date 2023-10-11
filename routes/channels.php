@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('new-task-added', function ($task) {
+Broadcast::channel('task-created', function ($task) {
     return true;
 });
 

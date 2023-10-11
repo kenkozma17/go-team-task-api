@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Events\NewTaskAdded;
+use App\Events\TaskCreated;
 use App\Events\TaskUpdated;
 use App\Events\TaskSorted;
 use App\Events\TaskDeleted;
@@ -43,7 +43,7 @@ class TaskController extends Controller
           "status_id" => $input["statusId"]
         ]);
 
-        event(new NewTaskAdded($task));
+        event(new TaskCreated($task));
 
         return (new TaskResource($task))->response();
     }

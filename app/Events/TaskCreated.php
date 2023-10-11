@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Task;
 
-class NewTaskAdded implements ShouldBroadcast
+class TaskCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,7 +31,7 @@ class NewTaskAdded implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('new-task-added'),
+            new Channel('task-created'),
         ];
     }
 }
