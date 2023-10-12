@@ -32,4 +32,4 @@ An API to provide Authentication, CRUD and sorting abilities built using Laravel
 
 4. Setup database connection accordingly in `.env` file.
 5. Run migrations and seed your database by executing the following command: `php artisan migrate:fresh --seed`. This should give create a user for you to login (provided in email) and 3 default status boards out of the box (Todo, In-Progress, Done).
-6. Navigate to `/` route and look for JSON Object that displays the Laravel version.
+6. Navigate to `/` route and look for JSON Object that displays the Laravel version and you should be good to go.
