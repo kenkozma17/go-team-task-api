@@ -12,15 +12,8 @@ use App\Models\Status;
 class TaskControllerTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Test if index route returns 200 for authenticated users
      */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function test_index_returns_200_for_authenticated_users(): void {
       $user = User::factory()->create();
       $response = $this->actingAs($user)->get('api/statuses');
@@ -28,12 +21,18 @@ class TaskControllerTest extends TestCase
       $response->assertStatus(200);
     }
 
+    /**
+     * Test if index route redirects to login page for unauthenticated users
+     */
     public function test_index_redirects_to_login_for_unauthenticated_users(): void {
       $response = $this->get('api/statuses');
 
       $response->assertStatus(302);
     }
 
+    /**
+     * Test if store task route creates a task in the database
+     */
     public function test_create_task(): void {
       $user = User::factory()->create();
       $statuses = Status::factory()->create();
@@ -56,6 +55,9 @@ class TaskControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * Test if update task route updates a task in the database
+     */
     public function test_update_task(): void {
       $user = User::factory()->create();
       $statuses = Status::factory()->create();
@@ -78,6 +80,9 @@ class TaskControllerTest extends TestCase
       ]);
     }
 
+    /**
+     * Test if delete task route deletes a task in the database
+     */
     public function test_delete_task(): void {
       $user = User::factory()->create();
       $statuses = Status::factory()->create();
@@ -91,6 +96,9 @@ class TaskControllerTest extends TestCase
       $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 
+    /**
+     * Test if task status is changed
+     */
     public function test_sort_task(): void {
       $user = User::factory()->create();
       $statuses = Status::factory()->create();

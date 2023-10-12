@@ -12,6 +12,6 @@ class Status extends Model
     use HasFactory;
 
     public function tasks(): HasMany {
-      return $this->hasMany(Task::class);
+      return $this->hasMany(Task::class)->orderBy("due_date", "asc");
     }
 }
